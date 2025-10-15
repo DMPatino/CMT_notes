@@ -1,0 +1,3 @@
+Run a nikto scan against the website
+#nikto -h 10.50.X.X:8080
+see img1
