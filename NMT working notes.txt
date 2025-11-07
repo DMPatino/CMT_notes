@@ -1,0 +1,85 @@
+NMT working notes
+________________________________________
+********** NMT Student Access **********
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+JUMP IP:
+10.50.15.227 CPT NSX_Nat_1 NAT rules> Destination Address
+
+Target IPs:
+Entity - 10.50.160.5 CPT DMZ-RTR General> Address (entity-router-vyos)
+
+cvte:cvte	attacker:password
+#ssh -J cvte@10.50.XX.XX attacker@172.24.23.101 -X
+#ssh -J cvte@10.50.XX.XX attacker@172.24.23.102 -X
+
+______As Instructor_____
+Start the icecast server
+Box entity uav
+vlad:123qwe
+$vncserver
+
+Start the icecast box
+Box Donovia Icecast
+entity:D0n0viaRule$
+
+Create secret.txt document 
+on entity's Documents' folder 
+("vlad:RDBuMHZpYVJ1bGUkCg==")
+
+Enable RDP
+Run VNC viewer as admin
+123qwe
+>>>>>>>Inside VNC on Linux Desktop
+	Change directories to arduino pilot directory and run ./waf 
+	$ cd /uav/ardupilot $ ./waf
+	Change to vlad's home directory and run ./startup.sh 
+	$ cd ~ $ ./startup.sh
+
+
+*************Resetting/ Troubleshooting Icecast*********************
+Find the PID associated with the old connections
+Sometimes processes linger in the background and mess things up a bit
+Especially if the exploit is thrown multiple times
+
+on the Windows box run a netstat with these flags
+
+>netstat -ano | findstr :<PORT>
+
+then kill lingering processes
+
+>taskkill /PID <PID> /F
+
+*In Linux is this
+$netstat -tunp | grep <PORT>
+$kill -9 <PID>
+
+____Student view______
+
+after receiving target IP 
+nmap -A (-sV -sT -Pn) 10.50.160.17 -p-
+
+3389/tcp open ms-wbt-server Microsoft Terminal Service
+8000/tcp open Icecast streaming media server
+
+Icecast is Vulnerable with some OSR 
+search for it on Metasploit
+use the header overwrite (buffer overflow technique)
+set RPORT to target port
+set RHOST to target IP
+
+if the exploit fails make sure to restart the icecast server since it is an overflow
+success if they get a meterpreter shell
+
+type shell navigate to C:\Users\entity\Documents
+type secret.txt (type is the equivalent of cat in Linux)
+now they should have the creds to rdp into the windows box
+
+On OPSstation make sure we have xfreerdp and we should have proxychains already 
+just which it if needed
+sudo apt install freerdp-x11
+sudo apt install proxychains
+
+ ssh -X -D 9050 -J cvte@<Jump _IP>,attacker@<172.24.23.XXX> <user>@<coe_RTR_IP>
+
+
